@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, type CSSProperties, type ReactNode, type KeyboardEvent as ReactKeyboardEvent } from "react";
+import SeebeckHeroDiagram from "./components/SeebeckDiagram";
 
 // ─── THEME TOKENS ──────────────────────────────────────────────
 const LIGHT = {
@@ -429,111 +430,6 @@ function Hero({ t }: { t: Theme }) {
   );
 }
 
-// ─── SEEBECK HERO DIAGRAM ──────────────────────────────────────
-function SeebeckHeroDiagram({ t }: { t: Theme }) {
-  const [tick, setTick] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setTick(p => p + 1), 60);
-    return () => clearInterval(id);
-  }, []);
-
-  const electrons = [0, 1, 2, 3, 4].map(i => ({
-    x: ((tick * 1.2 + i * 50) % 200),
-    opacity: Math.sin(((tick * 1.2 + i * 50) % 200) / 200 * Math.PI),
-  }));
-
-  return (
-    <div className="diagram-root" style={{ position: "relative", width: 380, height: 380 }}>
-      {/* Spinning rings */}
-      {[340, 270, 200].map((size, i) => (
-        <div key={i} style={{
-          position: "absolute",
-          width: size, height: size,
-          borderRadius: "50%",
-          border: `1.5px ${i === 1 ? "dashed" : "solid"} ${t.rule}`,
-          top: "50%", left: "50%",
-          transform: "translate(-50%,-50%)",
-          animation: `spin${i % 2 === 0 ? "Cw" : "Ccw"} ${20 + i * 10}s linear infinite`,
-          transition: "border-color 0.4s",
-        }} />
-      ))}
-
-      {/* Center module */}
-      <div style={{
-        position: "absolute", top: "50%", left: "50%",
-        transform: "translate(-50%,-50%)",
-        width: 150, height: 150, borderRadius: "50%",
-        background: t.bgCard,
-        border: `2px solid ${t.border}`,
-        display: "flex", flexDirection: "column",
-        alignItems: "center", justifyContent: "center", gap: 4,
-        boxShadow: `0 16px 48px ${t.fire}20`,
-        zIndex: 10, transition: "background 0.4s, border-color 0.4s, box-shadow 0.4s",
-      }}>
-        <span style={{ fontSize: "2.4rem", animation: "tempPulse 3s ease-in-out infinite" }}>⚡</span>
-        <span style={{
-          fontFamily: "'Playfair Display', serif", fontWeight: 700,
-          fontSize: "1.1rem", color: t.fire, transition: "color 0.4s",
-        }}>V = S · ΔT</span>
-        <span style={{
-          fontFamily: "'Space Mono', monospace", fontSize: "0.55rem",
-          letterSpacing: "0.08em", textTransform: "uppercase",
-          color: t.muted, textAlign: "center",
-        }}>Seebeck Effect</span>
-      </div>
-
-      {/* Orbit nodes */}
-      {[
-        { icon: "🔥", label: "Heat Source", top: "4%", left: "50%", tx: "-50%", ty: "0" },
-        { icon: "❄️", label: "Heat Sink", top: "50%", left: "96%", tx: "0", ty: "-50%" },
-        { icon: "💡", label: "LED / Motor", top: "96%", left: "50%", tx: "-50%", ty: "-100%" },
-        { icon: "🔲", label: "TE Module", top: "50%", left: "4%", tx: "-100%", ty: "-50%" },
-      ].map((node) => (
-        <div key={node.label} style={{
-          position: "absolute", top: node.top, left: node.left,
-          transform: `translate(${node.tx},${node.ty})`,
-          display: "flex", flexDirection: "column", alignItems: "center", gap: 4, zIndex: 11,
-        }}>
-          <div style={{
-            width: 52, height: 52, borderRadius: "50%",
-            background: t.bgCard, border: `1.5px solid ${t.border}`,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: "1.4rem",
-            boxShadow: `0 4px 16px ${t.ink}10`,
-            transition: "all 0.3s, background 0.4s, border-color 0.4s",
-            cursor: "default",
-          }}
-          onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.15)"; e.currentTarget.style.boxShadow = `0 8px 24px ${t.fire}30`; }}
-          onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = `0 4px 16px ${t.ink}10`; }}
-          >
-            {node.icon}
-          </div>
-          <span style={{
-            fontFamily: "'Space Mono', monospace", fontSize: "0.55rem",
-            letterSpacing: "0.07em", textTransform: "uppercase",
-            color: t.muted, textAlign: "center", lineHeight: 1.3,
-          }}>{node.label}</span>
-        </div>
-      ))}
-
-      {/* Animated electron path (SVG overlay) */}
-      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 9, overflow: "visible" }}>
-        <defs>
-          <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="3" refY="2" orient="auto">
-            <polygon points="0 0, 6 2, 0 4" fill={t.teal} opacity="0.6" />
-          </marker>
-        </defs>
-        {/* Clockwise arc suggestion lines */}
-        {electrons.map((e, i) => (
-          <circle key={i} cx={`${20 + e.x}%`} cy="50%" r="3.5"
-            fill={t.teal} opacity={e.opacity * 0.8}
-            style={{ filter: `drop-shadow(0 0 4px ${t.teal})` }}
-          />
-        ))}
-      </svg>
-    </div>
-  );
-}
 
 // ─── SECTION HEADER ────────────────────────────────────────────
 function SectionHeader({ num, kicker, title, t }: { num: string; kicker: string; title: string; t: Theme }) {
@@ -1098,7 +994,7 @@ function SystemSection({ t }: { t: Theme }) {
         {/* Power pathway */}
         <Reveal delay={0.1}>
           <div style={{
-            marginBottom: "1rem", padding: "0.6rem 1.2rem",
+            marginBottom: "2rem", padding: "0.6rem 1.2rem",
             background: `${t.fire}12`, border: `1px solid ${t.fire}30`,
             borderRadius: 8, display: "inline-flex", alignItems: "center", gap: 8,
           }}>
