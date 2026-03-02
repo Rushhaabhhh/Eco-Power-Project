@@ -1347,7 +1347,7 @@ function Footer({ t }: { t: Theme }) {
 
 // ─── ROOT PAGE ─────────────────────────────────────────────────
 export default function EcoPowerPage() {
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(true);
   const [progress, setProgress] = useState(0);
   const t = dark ? DARK : LIGHT;
 
