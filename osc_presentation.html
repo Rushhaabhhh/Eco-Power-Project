@@ -1,0 +1,425 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>Open Source Club Presentation</title>
+		
+        <!-- Reveal.js Core & Theme -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
+		
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+		
+        <style>
+            :root {
+                --r-main-font: 'Inter', sans-serif;
+                --r-heading-font: 'Fira Code', monospace;
+                --r-background-color: #0d1117; /* Deep Dark Charcoal / Obsidian */
+                --r-heading-color: #2ea043; /* GitHub Green */
+                --r-main-color: #c9d1d9;
+                --r-link-color: #58a6ff; /* System Blue accent */
+                --r-selection-background-color: #2ea043;
+            }
+            .reveal {
+                background: radial-gradient(circle at center, #161b22 0%, #0d1117 100%);
+            }
+            .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+                text-transform: none;
+                letter-spacing: -0.05em;
+                font-weight: 700;
+                text-align: left;
+            }
+            .reveal h1 { 
+                font-size: 2.2em; 
+                text-shadow: 0 0 20px rgba(46, 160, 67, 0.4); 
+            }
+            .reveal h2 { 
+                font-size: 1.8em; 
+                margin-bottom: 40px;
+                border-bottom: 1px solid #30363d;
+                padding-bottom: 10px;
+            }
+            .reveal p, .reveal li {
+                text-align: left;
+                font-size: 0.85em;
+                line-height: 1.6;
+                color: #c9d1d9;
+            }
+            .reveal .slide-number {
+                color: #2ea043;
+                font-family: 'Fira Code', monospace;
+                font-size: 14px;
+            }
+            .hl { color: #2ea043; } /* Green Highlight */
+            .hl-blue { color: #58a6ff; } /* Blue Highlight */
+            
+            /* Premium Terminal Element */
+            .terminal-window {
+                background: rgba(1, 4, 9, 0.8);
+                border: 1px solid #30363d;
+                border-radius: 8px;
+                padding: 30px;
+                font-family: 'Fira Code', monospace;
+                font-size: 0.75em;
+                color: #c9d1d9;
+                text-align: left;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+                backdrop-filter: blur(10px);
+                position: relative;
+            }
+            .terminal-header {
+                display: flex;
+                gap: 8px;
+                position: absolute;
+                top: 15px;
+                left: 15px;
+            }
+            .term-dot { width: 12px; height: 12px; border-radius: 50%; }
+            .term-red { background: #ff5f56; }
+            .term-yellow { background: #ffbd2e; }
+            .term-green { background: #27c93f; }
+            
+            /* Typography Tweaks for Lists */
+            ul { list-style-type: none; padding: 0; }
+            li { margin-bottom: 15px; }
+            li::before {
+                content: ">_";
+                color: #58a6ff;
+                font-family: 'Fira Code', monospace;
+                margin-right: 12px;
+                font-size: 1.1em;
+            }
+
+            /* Slide 1: Grid System */
+            .grid-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+            .profile-card {
+                background: rgba(22, 27, 34, 0.6);
+                border: 1px solid #30363d;
+                border-radius: 8px;
+                padding: 20px;
+                text-align: left;
+                transition: all 0.3s ease;
+                border-left: 3px solid #30363d;
+            }
+            .profile-card:hover {
+                transform: translateY(-5px);
+                border-left-color: #2ea043;
+                background: rgba(22, 27, 34, 0.9);
+                box-shadow: 0 10px 20px rgba(46, 160, 67, 0.1);
+            }
+            .profile-card h3 { font-size: 1.1em; margin-bottom: 5px; color: #ffffff; }
+            .profile-card .post {
+                font-family: 'Fira Code', monospace;
+                color: #58a6ff;
+                font-size: 0.7em;
+                margin-bottom: 12px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+            .profile-card p { font-size: 0.65em; margin: 0; }
+
+            /* Stat Box for Proof of Work */
+            .stat-box {
+                border-left: 4px solid #2ea043;
+                padding: 15px 25px;
+                margin-bottom: 30px;
+                background: linear-gradient(90deg, rgba(46, 160, 67, 0.1) 0%, transparent 100%);
+            }
+            .stat-box h3 { margin: 0; font-size: 1.3em; border: none; padding: 0;}
+
+            /* Layout Utilities */
+            .two-col { display: flex; gap: 40px; }
+            .col { flex: 1; }
+
+            /* Process Flowchart */
+            .flowchart {
+                display: flex;
+                justify-content: space-between;
+                align-items: stretch;
+                gap: 20px;
+                margin-top: 40px;
+            }
+            .flow-step {
+                flex: 1;
+                background: rgba(22, 27, 34, 0.4);
+                border: 1px solid #30363d;
+                padding: 30px 20px;
+                border-radius: 8px;
+                position: relative;
+            }
+            .flow-step h3 {
+                text-align: center;
+                font-size: 1.1em;
+                color: #ffffff;
+                border-bottom: none;
+                margin-bottom: 5px;
+            }
+            .arrow {
+                color: #58a6ff;
+                font-size: 2em;
+                font-family: 'Fira Code', monospace;
+                display: flex;
+                align-items: center;
+                opacity: 0.6;
+            }
+
+            /* Timeline for Sprint */
+            .timeline {
+                position: relative;
+                padding-left: 40px;
+                margin-top: 20px;
+            }
+            .timeline::before {
+                content: '';
+                position: absolute;
+                left: 0; top: 0; bottom: 0; width: 2px;
+                background: #30363d;
+            }
+            .timeline-item {
+                position: relative;
+                margin-bottom: 25px;
+            }
+            .timeline-item::before {
+                content: '';
+                position: absolute;
+                left: -45px; top: 8px; width: 12px; height: 12px;
+                border-radius: 50%;
+                background: #58a6ff;
+                border: 3px solid #0d1117;
+                box-shadow: 0 0 10px rgba(88, 166, 255, 0.5);
+            }
+            .timeline-item h4 {
+                font-family: 'Fira Code', monospace;
+                color: #58a6ff;
+                margin: 0 0 5px 0;
+                font-size: 1em;
+            }
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+                <!-- MAIN TITLE SLIDE -->
+                <section>
+                    <div class="terminal-window" style="padding-top: 50px;">
+                        <div class="terminal-header">
+                            <div class="term-dot term-red"></div>
+                            <div class="term-dot term-yellow"></div>
+                            <div class="term-dot term-green"></div>
+                        </div>
+                        <div style="opacity: 0.6; margin-bottom: 20px;">
+                            <span class="hl">user@system</span>:<span class="hl-blue">~/OSC</span>$ ./initiate_protocol.sh
+                        </div>
+                        <h1>Open Source Club</h1>
+                        <p style="font-size: 1.1em; color: #8b949e; margin-top: -10px;">Bridging the gap between academic theory and production-grade engineering.</p>
+                        <br>
+                        <div style="font-size: 0.7em; opacity: 0.4;">[ PRESS SPACE TO CONTINUE ]</div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 1: CORE TEAM -->
+                <section>
+                    <h2><span class="hl-blue">01</span> / The Core Team</h2>
+                    <div class="grid-container">
+                        <div class="profile-card">
+                            <h3>Abhinav Kumar Jha</h3>
+                            <div class="post">President</div>
+                            <p>Sets club vision and external direction. Leads major decisions, stakeholder partnerships, and sponsorships.</p>
+                        </div>
+                        <div class="profile-card">
+                            <h3>Rushabh Mistry</h3>
+                            <div class="post">Vice President</div>
+                            <p>Drives day-to-day operations and activity schedules. Manages budget, funds transparency, and college coordination.</p>
+                        </div>
+                        <div class="profile-card">
+                            <h3>Mehul Agarwal</h3>
+                            <div class="post">Training Head</div>
+                            <p>Architects skill development roadmaps (Beginner to Advanced). Executes weekly sessions, peer-learning, and tracks member progress.</p>
+                        </div>
+                        <div class="profile-card">
+                            <h3>Prateek Singh</h3>
+                            <div class="post">Mentorship & Events Head</div>
+                            <p>Owns the end-to-end Mentorship Program. Executes hackathons, contests, and guest sessions.</p>
+                        </div>
+                        <div class="profile-card">
+                            <h3>Anant Singh</h3>
+                            <div class="post">Repo Maintainer</div>
+                            <p>Maintains club open-source repositories and code quality. Reviews PRs, manages issues, and guides contributors.</p>
+                        </div>
+                        <div class="profile-card">
+                            <h3>Kunal Kumar</h3>
+                            <div class="post">Tech & Operations Lead</div>
+                            <p>Handles content, inter-club collaborations, and operational logistics.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 2: PHILOSOPHY -->
+                <section>
+                    <h2><span class="hl-blue">02</span> / Philosophy & Vision</h2>
+                    <div class="terminal-window" style="padding-top: 50px;">
+                        <div class="terminal-header">
+                            <div class="term-dot term-red"></div>
+                            <div class="term-dot term-yellow"></div>
+                            <div class="term-dot term-green"></div>
+                        </div>
+                        <ul>
+                            <li><strong><span class="hl">Meta-Skills Over Syntax:</span></strong> We don't just teach frameworks. We teach you how to read unknown codebases, navigate documentation, and solve problems independently.</li>
+                            <li><strong><span class="hl">Learning By Doing:</span></strong> Moving past tutorials. Real engineering happens when you break things and fix them in public.</li>
+                            <li><strong><span class="hl">The "Build Day" Culture:</span></strong> Dedicated, intensive sessions where theory ends and actual coding begins. Zero slides, all IDEs.</li>
+                            <li><strong><span class="hl">Code Sovereignty:</span></strong> Equipping you with the foundational intuition (Git, OS fundamentals, System Design) to contribute to any domain.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- SLIDE 3: PROOF OF WORK -->
+                <section>
+                    <h2><span class="hl-blue">03</span> / Proof of Work</h2>
+                    <div class="stat-box">
+                        <h3><span class="hl">40+</span> Technical Sessions & Events Conducted (Sept - Dec)</h3>
+                    </div>
+                    <ul>
+                        <li><strong>Deep-Dive Engineering Workshops:</strong> Scaled foundational knowledge through intensive workshops on Git/GitHub CLI, Python Internals, Client-Server Architecture, and Computer Networking.</li>
+                        <li><strong>Hackathon Dominance:</strong> Hosted and participated in major builds including the Game Dev Hackathon, Vercel V0, Auraverse, and Yugaantar Hackathons.</li>
+                        <li><strong>Elite Open-Source Preparation:</strong> Ran dedicated, multi-week lab sessions and external mentor syncs focused strictly on Google Summer of Code (GSoC) and Summer of Bitcoin (SoB).</li>
+                        <li><strong>High-Signal Feedback:</strong> Maintained a 4.6+ average session rating, with learners consistently highlighting deep technical clarity and beginner-friendly, high-energy delivery.</li>
+                    </ul>
+                </section>
+
+                <!-- SLIDE 4: LEARNER PIPELINE -->
+                <section>
+                    <h2><span class="hl-blue">04</span> / Learner Lifecycle Pipeline</h2>
+                    <div class="flowchart">
+                        <div class="flow-step">
+                            <h3>1. The Foundations</h3>
+                            <div class="hl" style="font-family: monospace; font-size: 0.8em; margin-bottom: 15px; text-align: center;">[Open to All]</div>
+                            <p style="text-align: center;">Biweekly meta-skill sessions accessible to the entire campus. Focuses on universal engineering skills, not just specific domains.</p>
+                        </div>
+                        <div class="arrow">=></div>
+                        <div class="flow-step">
+                            <h3>2. The Selection</h3>
+                            <div class="hl" style="font-family: monospace; font-size: 0.8em; margin-bottom: 15px; text-align: center;">[Becoming a Member]</div>
+                            <p style="text-align: center;">Application and onboarding process to filter for commitment. Members are matched with domain-specific Mentors (Web, App, Web3).</p>
+                        </div>
+                        <div class="arrow">=></div>
+                        <div class="flow-step">
+                            <h3>3. Build Days</h3>
+                            <div class="hl" style="font-family: monospace; font-size: 0.8em; margin-bottom: 15px; text-align: center;">[Members Only]</div>
+                            <p style="text-align: center;">Weekly execution hubs. Direct contribution to Club Repos, Campus Tools, or External Orgs.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 5: PHASE 1 -->
+                <section>
+                    <h2><span class="hl-blue">05</span> / Phase 1: Open Meta-Skill Sessions</h2>
+                    <p style="color: #8b949e; font-family: monospace; margin-bottom: 30px;">// Open to the whole campus. Building skills applicable anywhere.</p>
+                    <div class="two-col">
+                        <div class="col terminal-window" style="border-color: #30363d; opacity: 0.8; padding-top: 50px;">
+                            <div class="terminal-header">
+                                <div class="term-dot term-red"></div>
+                                <div class="term-dot term-yellow"></div>
+                                <div class="term-dot term-green"></div>
+                            </div>
+                            <h3 style="color:#ff5f56; font-size:1.1em; margin-bottom: 5px;">Legacy Academic Route</h3>
+                            <ul style="font-size: 0.85em; opacity: 0.7;">
+                                <li style="margin-bottom: 8px;">Textbook definitions</li>
+                                <li style="margin-bottom: 8px;">Isolated algorithms</li>
+                                <li style="margin-bottom: 8px;">Passing exams</li>
+                            </ul>
+                        </div>
+                        <div class="col terminal-window" style="border-left: 4px solid #2ea043; padding-top: 50px; background: rgba(46, 160, 67, 0.05);">
+                            <div class="terminal-header">
+                                <div class="term-dot term-red"></div>
+                                <div class="term-dot term-yellow"></div>
+                                <div class="term-dot term-green"></div>
+                            </div>
+                            <h3 style="color:#2ea043; font-size:1.1em; margin-bottom: 15px;">Real-World Engineering</h3>
+                            <ul style="font-size: 0.85em;">
+                                <li><strong>Core Engineering:</strong> Object-Oriented Design (OOPS), Low-Level Design (LLD) case studies, and Software Lifecycles.</li>
+                                <li><strong>The Meta-Game:</strong> The "right way" to learn programming, choosing a tech stack, and roadmap evaluation.</li>
+                                <li><strong>Modern Workflows:</strong> Dealing with "AI FOMO" and leveraging Gen-AI without relying on it.</li>
+                                <li><strong>Open Source Awareness:</strong> GSoC, Hacktoberfest, and evaluating repositories.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 6: PHASE 2 -->
+                <section>
+                    <h2><span class="hl-blue">06</span> / Phase 2: 5-Week Contribution Sprint</h2>
+                    <p style="color: #8b949e; font-family: monospace; font-size: 0.8em;">// For Members Only. Guided by Mentors during Build Days.</p>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h4>Week 1 | Setup</h4>
+                            <p>Repo evaluation, forking, cloning, and local environment setup.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Week 2 | Exploration</h4>
+                            <p>Reading the README, navigating the codebase, understanding contribution guidelines.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Week 3 | First Attempt</h4>
+                            <p>Tackling an issue using AI, docs, and trial-and-error (Mentors guide, but don't give the answer).</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Week 4 | Debugging</h4>
+                            <p>Improving code, passing CI/CD tests, linting, and formatting.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Week 5 | The PR</h4>
+                            <p>Finalizing the Pull Request, writing clear commits, communicating with maintainers.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 7: OUTCOMES -->
+                <section>
+                    <h2><span class="hl-blue">07</span> / The Endgame & Outcomes</h2>
+                    <div class="two-col" style="align-items: stretch;">
+                        <div class="col terminal-window" style="border-top: 4px solid #58a6ff; display: flex; flex-direction: column;">
+                            <h3 style="color: #58a6ff; font-family: monospace; font-size: 1.1em; margin-bottom: 20px;">> Path A: Beginner Journey</h3>
+                            <p><strong>Start:</strong> Guided environments and internal club repositories.</p>
+                            <p><strong>Outcome:</strong> 2–3 solid real-world Pull Requests.</p>
+                            <div style="margin-top: auto; border-top: 1px solid #30363d; padding-top: 15px;">
+                                <p style="color: #c9d1d9; font-weight: bold; margin: 0;">
+                                    Result: The absolute confidence to explore and contribute on your own.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col terminal-window" style="border-top: 4px solid #a371f7; display: flex; flex-direction: column;">
+                            <h3 style="color: #a371f7; font-family: monospace; font-size: 1.1em; margin-bottom: 20px;">> Path B: Experienced Journey</h3>
+                            <p><strong>Start:</strong> Direct high-level contributions with advanced mentor guidance.</p>
+                            <p><strong>Outcome:</strong> Strong, meaningful commits to massive open-source organizations.</p>
+                            <div style="margin-top: auto; border-top: 1px solid #30363d; padding-top: 15px;">
+                                <p style="color: #c9d1d9; font-weight: bold; margin: 0;">
+                                    Result: High-probability applications for GSoC, Summer of Bitcoin, and future OSC Mentorship roles.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+			</div>
+		</div>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+                controls: true,
+                progress: true,
+                center: false,
+                transition: 'slide'
+			});
+		</script>
+	</body>
+</html>
